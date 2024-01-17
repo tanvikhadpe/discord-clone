@@ -52,13 +52,13 @@ const formSchema = z.object({
     type: z.nativeEnum(ChannelType)
 })
 
-export const CreateChannelModal = () => {
+export const EditChannelModal = () => {
 
     const { isOpen, onClose, type, data } = useModal();
     const router = useRouter();
     const params = useParams();
 
-    const isModalOpen = isOpen && type === "createChannel";
+    const isModalOpen = isOpen && type === "editChannel";
     const { channelType } = data;
 
     const form = useForm({
@@ -107,7 +107,7 @@ export const CreateChannelModal = () => {
             <DialogContent className="bg-white text-black p-0 overflow-hidden">
                 <DialogHeader className="pt-8 px-6">
                     <DialogTitle className="text-2xl text-center font-bold">
-                        Create Channel
+                        Edit Channel
                     </DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
@@ -166,7 +166,7 @@ export const CreateChannelModal = () => {
                         </div>
                         <DialogFooter className="bg-gray-100 px-6 py-4">
                             <Button variant="primary" disabled={isLoading}>
-                                Create
+                                Save
                             </Button>
                         </DialogFooter>
                     </form>
