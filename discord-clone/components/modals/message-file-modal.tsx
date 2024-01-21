@@ -14,13 +14,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-} from "@/components/ui/form";
-import qs from "query-string"
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import qs from "query-string";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
@@ -37,7 +32,7 @@ export const MessageFileModal = () => {
   const router = useRouter();
 
   const isModalOpen = isOpen && type === "messageFile";
-  const { apiUrl, query } = data
+  const { apiUrl, query } = data;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -63,11 +58,11 @@ export const MessageFileModal = () => {
       await axios.post(url, {
         ...values,
         content: values.fileUrl,
-      })
+      });
 
       form.reset();
       router.refresh();
-      handleClose()
+      handleClose();
     } catch (error) {
       console.log(error);
     }

@@ -51,29 +51,28 @@ export async function GET(req: Request) {
           channelId,
         },
         include: {
-            member: {
-                include: {
-                    profile: true,
-                }
-            }
+          member: {
+            include: {
+              profile: true,
+            },
+          },
         },
         orderBy: {
-            createdAt: "desc"
-        }
+          createdAt: "desc",
+        },
       });
     }
 
     let nextCursor = null;
 
-    if(messages.length === MESSAGES_BATCH) {
-        nextCursor = messages[MESSAGES_BATCH - 1].id;
+    if (messages.length === MESSAGES_BATCH) {
+      nextCursor = messages[MESSAGES_BATCH - 1].id;
     }
 
     return NextResponse.json({
-        items: messages,
-        nextCursor
+      items: messages,
+      nextCursor,
     });
-
   } catch (error) {
     console.log("[MESSAGES_GET]", error);
     return new NextResponse("Internal Error", { status: 500 });

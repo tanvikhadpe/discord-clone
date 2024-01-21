@@ -1,8 +1,9 @@
+import { NextApiRequest } from "next";
+import { MemberRole } from "@prisma/client";
+
+import { NextApiResponseServerIo } from "@/types";
 import { currentProfilePages } from "@/lib/current-profile-pages";
 import { db } from "@/lib/db";
-import { NextApiResponseServerIo } from "@/types";
-import { MemberRole } from "@prisma/client";
-import { NextApiRequest } from "next";
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,7 +23,7 @@ export default async function handler(
     }
 
     if (!conversationId) {
-      return res.status(400).json({ error: "Conversation ID Missing" });
+      return res.status(400).json({ error: "Conversation ID missing" });
     }
 
     const conversation = await db.conversation.findFirst({
@@ -31,7 +32,7 @@ export default async function handler(
         OR: [
           {
             memberOne: {
-              profileId: profile.userId,
+              profileId: profile.id,
             },
           },
           {
@@ -119,6 +120,7 @@ export default async function handler(
       if (!isMessageOwner) {
         return res.status(401).json({ error: "Unauthorized" });
       }
+
       directMessage = await db.directMessage.update({
         where: {
           id: directMessageId as string,
@@ -137,10 +139,12 @@ export default async function handler(
     }
 
     const updateKey = `chat:${conversation.id}:messages:update`;
+
     res?.socket?.server?.io?.emit(updateKey, directMessage);
+
     return res.status(200).json(directMessage);
   } catch (error) {
-    console.log("MESSAGE_ID", error);
+    console.log("[MESSAGE_ID]", error);
     return res.status(500).json({ error: "Internal Error" });
   }
 }
