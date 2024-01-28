@@ -65,7 +65,10 @@ NEXT_PUBLIC_LIVEKIT_URL=
 <p>4. Setup Prisma</p>
 
 ```
-npx prisma generate npx prisma db push
+npx prisma generate
+```
+```
+npx prisma db push
 ```
 <p></p>
 <p>5. Running the app</p>
